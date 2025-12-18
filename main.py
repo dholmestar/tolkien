@@ -1,14 +1,21 @@
 import os
 import shutil
+import sys
 
 from src.copystatic import copy_files_recursive #type: ignore
 from src.gencontent import generate_pages_recursive #type: ignore
 
+default_basepath = "/"
+
 def main():
+    basepath = default_basepath
+    if len(sys.argv) > 1:
+        basepath = sys.argv[1]
+
     print("Beginning static site generation...")
 
     dir_path_static = "./static"
-    dir_path_public = "./public"
+    dir_path_public = "./docs"
     dir_path_content = "./content"
     template_path = "./template.html"
 
@@ -24,7 +31,7 @@ def main():
     print("Static files copied successfully!")
 
     print("Generating pages recursively...")
-    generate_pages_recursive(dir_path_content, template_path, dir_path_public)
+    generate_pages_recursive(dir_path_content, template_path, dir_path_public, basepath)
 
     print("Static site generation complete.")
 
